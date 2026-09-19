@@ -1506,7 +1506,6 @@ input[type=checkbox],input[type=radio]{accent-color:#0a0a0a}
 <noscript>Для работы Moggs Delivery нужен включённый JavaScript.</noscript>
 <script>
 'use strict';
-const PHOTO_DATA = {};   /* фото блюд лежат в папке photos/ (см. PHOTO_DIR ниже) */
 /* ════════════════════════════════════════════════════════════════
    1. CONFIG — настройки, каталог, статусы
    ════════════════════════════════════════════════════════════════ */
@@ -1533,13 +1532,12 @@ const CONFIG = {
 
   /* ── КАРТИНКИ ГЛАВНОЙ ──────────────────────────────────────────
      Три фото в наклонном ряду вместо фонового видео с горами.
-     Чтобы заменить: вставьте свои ссылки в src (или положите файлы
-     рядом и укажите 'img/1.jpg'). Если картинка не загрузилась —
-     показывается красивая заглушка (emoji), сайт не ломается.       */
+     Сейчас показываются иллюстрации-эмодзи. Чтобы поставить свои фото,
+     вставьте ссылку в src (например 'img/1.jpg').       */
   heroImages: [
-    { src: 'https://images.openai.com/static-rsc-4/kMja1QFo0VYLZWCRr0XuJV4vu_l0-bC3HBitXaEfr0rawTvID8vFoaI4WGNEU_cxUeuPpLNfIRc8vY8EnS8gS69GNK8W4BNysjbCa65SpzAHgCdzN3MxV1Oti82xgH9lg7bFu5A-p-8oQjMLYc5YEBSgaYDyn734Dmdh7xnPkimq-K2iTtzHbo1NtGb2dO87?purpose=fullsize', emoji: '🍔', hue: 18 },
-    { src: 'https://images.openai.com/static-rsc-4/BgduZP-Zc5aB3o9vge_00pSF-vHzrmX7ElDvDOJCGf6K8Rfca4WcAFFaBohS9JusePEmPeAZVn_QJVhFpV4U70Km42ZKgKKLLLWPJwacHEuaqrgyWtCbWkzKYSxgrgS7iQrQ5XpxMxrdzT0imPEMBwevzUj_oEbzibzeh1sECJgyH0tg-SVJN6Jm6OFkwb4V?purpose=fullsize', emoji: '🍕', hue: 38 },
-    { src: 'https://tse4.mm.bing.net/th/id/OIP.KIkjItgfQDJUWlq7BMedigHaLH?c=7&h=379&p=0&r=0&w=474', emoji: '🥗', hue: 130 },
+    { src: '', emoji: '🍔', hue: 18 },
+    { src: '', emoji: '🍕', hue: 38 },
+    { src: '', emoji: '🥗', hue: 130 },
   ],
 };
 
@@ -1559,133 +1557,13 @@ const CATEGORIES = [
   { id: 'tea',       emoji: '🍵', name: 'Чай',              hue: 80 },
 ];
 
-/* BACKEND: каталог придёт с сервера (GET /menu). Поле photo — путь к фото блюда (см. PHOTOS ниже);
-   если фото нет или не загрузилось — показывается иллюстрация-эмодзи. */
+/* BACKEND: каталог придёт с сервера (GET /menu). Блюда показываются с иллюстрацией-эмодзи. */
 /* блюда, над которыми на карточке идёт «пар» (анимация при наведении) */
 const WARM_CATS = ['hot', 'breakfast', 'pasta', 'fastfood', 'coffee', 'tea'];
-const PHOTO_DIR = 'photos/';   // запасной путь: папка photos рядом с index.html (фото уже встроены в файл — см. PHOTO_DATA)
-/* запасные встроенные фото (файлы dish-NN.webp) */
-const PHOTOS = {
-  "Стейк рибай": 'dish-01.webp',
-  "Плов по-восточному": 'dish-02.webp',
-  "Лосось на гриле": 'dish-03.webp',
-  "Бешбармак": 'dish-04.webp',
-  "Сырники со сметаной": 'dish-05.webp',
-  "Омлет с лососем": 'dish-06.webp',
-  "Гранола с йогуртом": 'dish-07.webp',
-  "Начос с гуакамоле": 'dish-08.webp',
-  "Луковые кольца": 'dish-09.webp',
-  "Сырные палочки": 'dish-10.webp',
-  "Чизкейк Нью-Йорк": 'dish-11.webp',
-  "Тирамису": 'dish-12.webp',
-  "Шоколадный фондан": 'dish-13.webp',
-  "Лимонад «Цитрус»": 'dish-14.webp',
-  "Клюквенный морс": 'dish-15.webp',
-  "Апельсиновый фреш": 'dish-16.webp',
-  "Цезарь с курицей": 'dish-17.webp',
-  "Греческий салат": 'dish-18.webp',
-  "Салат с тунцом": 'dish-19.webp',
-  "Карбонара": 'dish-20.webp',
-  "Болоньезе": 'dish-21.webp',
-  "Паста с креветками": 'dish-22.webp',
-  "Чикен бургер": 'dish-23.webp',
-  "Чизбургер": 'dish-24.webp',
-  "Картофель фри": 'dish-25.webp',
-  "Хот-дог": 'dish-26.webp',
-  "Пицца Пепперони": 'dish-27.webp',
-  "Куриная грудка с киноа": 'dish-28.webp',
-  "Треска с овощами": 'dish-29.webp',
-  "Боул с индейкой": 'dish-30.webp',
-  "Веган-боул с нутом": 'dish-31.webp',
-  "Тофу-вок с овощами": 'dish-32.webp',
-  "Котлеты из чечевицы": 'dish-33.webp',
-  "Айс-латте": 'dish-34.webp',
-  "Матча-тоник": 'dish-35.webp',
-  "Холодный чай «Персик»": 'dish-36.webp',
-  "Капучино": 'dish-37.webp',
-  "Флэт уайт": 'dish-38.webp',
-  "Раф ванильный": 'dish-39.webp',
-  "Зелёный жасмин": 'dish-40.webp',
-  "Чёрный с бергамотом": 'dish-41.webp',
-  "Масала-чай": 'dish-42.webp',
-};
 let _dishSeq = 0;
-/* ФОТО ДЛЯ КАЖДОГО БЛЮДА — по одной строке на блюдо (все 42), в порядке меню.
-   • ссылка https://… — фото из интернета (нужна сеть; если не откроется — покажется встроенное);
-   • 'dish-NN.webp'  — фото, встроенное в файл (или лежащее в папке photos/).
-   Чтобы сменить картинку блюда — замените значение напротив его названия. */
-const G = id => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:' + id;
-const MENU_PHOTOS = {
-  /* Горячее */
-  'Стейк рибай':                  'https://avatars.mds.yandex.net/get-vertis-journal/4469561/7a7adbe5-7833-4841-b87c-6e60088ff1a3.jpg/1600x1600',
-  'Плов по-восточному':           G('ANd9GcQrUjpEoHV8lL1hcx9SJvlZ9Ss3ihy44FPqoz_MWx9kIFbuZqH_5JPN_Gc&s=10'),
-  'Лосось на гриле':              'https://www.kikkoman.ru/fileadmin/_processed_/a/2/csm_217-recipe-page-marinated-grilled-salmon_mobile_44014d14b0.webp',
-  'Бешбармак':                    G('ANd9GcRgT_jBnJHiPcdwNUAQC6JZuglqf8DV3dwlFY8L9KVE4w&s=10'),
-  /* Завтраки */
-  'Сырники со сметаной':          G('ANd9GcTmJ1AC5i-3aMzTtAxuuIs4S6giBnQhshdlWEHidPyfsgqeYyPCj666Ll2D&s=10'),
-  'Омлет с лососем':              'https://images.gastronom.ru/WNWSqnRMU5i6AA9-JYuSjl_ErYVaKSN8l26eNXA_DP0/pr:recipe-cover-image/g:ce/rs:auto:0:0:0/L2Ntcy9hbGwtaW1hZ2VzL2MzODMwMWI0LWRiNDMtNDYyMi1iNzUzLTNhZThmYWM1ZDQ5ZC5qcGc.webp',
-  'Гранола с йогуртом':           'https://img.iamcook.ru/2025/upl/recipes/zen/u-797663872e1d156c910468f41c6c473c.JPG',
-  /* Закуски */
-  'Начос с гуакамоле':            G('ANd9GcS-fPh6c8igIwgfcbGgboTtmDhRSFmn6e3teTkkGEtqAHf0L8ImKpZOroGL&s=10'),
-  'Луковые кольца':               G('ANd9GcRZPjJ6qcpacuUx-A_lK8A-a_JBDc5DXOI8Bcc025Iak9OOhJdfaTUj_iiv&s=10'),
-  'Сырные палочки':               G('ANd9GcS97YgrZsp4Oih67K0Kofulm2Y60XHxb6R2jRHyzyu3p0DCbjPWUHtahW0&s=10'),
-  /* Десерты */
-  'Чизкейк Нью-Йорк':             'https://la-torta.ua/content/uploads/images/12-cake.jpg',
-  'Тирамису':                     'https://italy4.me/wp-content/uploads/2016/12/tiramisu_cr.jpg',
-  'Шоколадный фондан':            G('ANd9GcRUsN9VcaXoqd-01x18BfQ2P7LX-W4E_Rb8PY5pmtMA3C7XpRKHYszYg6O9&s=10'),
-  /* Напитки */
-  'Лимонад «Цитрус»':             'https://www.osteria.ru/upload/iblock/7a6/l0iwp7bo7vdv6t21kkf1i3kh5pqagbjx/DSCF1569.jpg',
-  'Клюквенный морс':              G('ANd9GcRAybZJiVIaexCwyHrUZKBlvVtkTj_7RJaD56aA9jq-OA&s=10'),
-  'Апельсиновый фреш':            'https://www.yamdiet.com/wp-content/uploads/02-6.jpg',
-  /* Салаты */
-  'Цезарь с курицей':             'https://images.gastronom.ru/LoVJjeEYXJQ3vR2Yn8WtlivB0eZ78Rtu417zEnX1mZs/pr:recipe-cover-image/g:ce/rs:auto:0:0:0/L2Ntcy9hbGwtaW1hZ2VzL2IxMzU5MzRkLWI1OTAtNDQ4Zi05MjA3LWQ5YzEzM2M2ODZlNy5qcGc.webp',
-  'Греческий салат':              G('ANd9GcRDdJN6-YNI94xCC7HoIw9SwS-0DbWAqzkwqXcXvbzi_Q&s=10'),
-  'Салат с тунцом':               G('ANd9GcS_GSSougvF4SglHRX-OYGM5YBXqeVSTdxUeerKYgMzrq9OTmRz0pFG0fzd&s=10'),
-  /* Паста */
-  'Карбонара':                    'https://menunedeli.ru/wp-content/uploads/2022/09/Pasta-Karbonara-500%D1%85350.jpg.jpg',
-  'Болоньезе':                    'https://www.chefmarket.ru/blog/wp-content/uploads/2021/10/plate-of-traditional-spaghetti-2000x1200.jpg',
-  'Паста с креветками':           G('ANd9GcSCWuw9p-6A-tqXzypVFwAvOnrTmCy8Up7zug2pFBA2eFQjX1vbe3_ftwk&s=10'),
-  /* Фастфуд */
-  'Чикен бургер':                 'https://kuldim.com/wa-data/public/shop/products/49/60/6049/images/28427/28427.970.jpg',
-  'Чизбургер':                    'https://img.avtosushi.ru/resize?quality=90&height=600&width=600&url=https%3A%2F%2Fresizer.avtosushi.ru%2Fcache%2F3%2Fb%2F2%2F3b2d1563-ba2c-48f2-b282-9fdc50463b8c.png&sign=ECmXu2p_ntGUqkwqsX2mBlEbuwKevT__23eaaSakf2c',
-  'Картофель фри':                'https://www.tvcook.ru/old/wp-content/uploads/images/topic/2012/03/24/9d09874691.jpg',
-  'Хот-дог':                      'https://img.magnific.com/free-psd/classic-hot-dog-with-mustard-toppings-transparent-background_84443-72579.jpg?semt=ais_hybrid&w=740&q=80',
-  'Пицца Пепперони':              'https://chudobludo.com/assets/images/products/542/medium/25903.png',
-  /* Диетическое */
-  'Куриная грудка с киноа':       G('ANd9GcSCwcXUyeCzq3i43IJOzYr_Vfgs3a1rONaHND5j3P7k92ZF21USlG7Umu0&s=10'),
-  'Треска с овощами':             G('ANd9GcRmPmwo1507BKgwatyZJ8rFFwZkFUGyCiGeEqPkLlRIb3a6t8xov1-Htdfe&s=10'),
-  'Боул с индейкой':              G('ANd9GcQwaOjLhmGhcF7AwQWE_MtoF_CD_8WwC1rk2JG_s3ic6gGOK9kUlBn-UXE&s=10'),
-  /* Веганское */
-  'Веган-боул с нутом':           G('ANd9GcRnhf-k1BNJjTIl_HMBjacV9E_J52Hs7KKkVHiRDvK9BA&s'),
-  'Тофу-вок с овощами':           G('ANd9GcTpqHd77tAF3IjYU2b6ZxHfJxpBIxlyO0LHw7zF-ALoyn0F6Pb84lJWC9P7&s=10'),
-  'Котлеты из чечевицы':          'https://yastatic.net/avatars/get-grocery-goods/15712601/b8833fcd-8d05-47ec-8921-1b9776df93bc/300x300?webp=true',
-  /* Холодные напитки */
-  'Айс-латте':                    G('ANd9GcR8T8oEuEVgfnTYaISYB7uwHQM9tferi6VCw9BDPohTE-HSJ4uAL5iP3MsO&s=10'),
-  'Матча-тоник':                  'https://static.tildacdn.com/stor3964-3332-4366-b138-656166326131/77559942.jpg',
-  'Холодный чай «Персик»':        G('ANd9GcQqCvzquwrjR8NylOzDTgTPsuQBVY4LnSWyPLzRsoeHyFjci2Et6qVzdteA&s=10'),
-  /* Кофе */
-  'Капучино':                     G('ANd9GcT9OsFUGYvsnNMLBINUCpS6ktQxz3hovNaVLYMeMotl7X6Ttxxm99aQoL5V&s=10'),
-  'Флэт уайт':                    G('ANd9GcT0_SrM1xfqbcrafnCRdBCLLqVLa0TBk5TwOTYHFZSYFgidVUQR7qOkeJ3R&s=10'),
-  'Раф ванильный':                G('ANd9GcQ3hRP0ICWj4ncKiNGiLZt4mwp5wAizWOzTBHw4RrT2oA&s=10'),
-  /* Чай */
-  'Зелёный жасмин':               G('ANd9GcTzeambl_-7y_xNNe1ZFbz6J4Ynq_hL2N7dvYqYdItFzW35xpFY2bFa5Q-n&s=10'),
-  'Чёрный с бергамотом':          G('ANd9GcSOPJdmMQr8_r-rurUyLTaOs_dEXoqAQGWELFezDI0FzLCWj5FM340PXugH&s=10'),
-  'Масала-чай':                   G('ANd9GcQny_AVoefwUmddfsltee2L3DpfJg5a5Meoo6jebXV8IGC_Zibr2nC0O37m&s=10'),
-};
-const PHOTO_FALLBACK = {};   // ссылка из интернета → встроенное фото
-const dish = (cat, name, desc, price, weight, emoji, badge = '') => {
-  const src = MENU_PHOTOS[name] || '';
-  const isWeb = /^https?:/.test(src);
-  const localName = isWeb ? PHOTOS[name] : src;                       // встроенное / из папки photos/
-  const local = localName ? (PHOTO_DATA[localName] || PHOTO_DIR + localName) : '';
-  if (isWeb && local) PHOTO_FALLBACK[src] = local;                     // запасное фото на случай, если ссылка не откроется
-  return { id: 'd' + (++_dishSeq), cat, name, desc, price, weight, emoji, badge, photo: isWeb ? src : local };
-};
-/* onerror у фото блюда: пробуем встроенное фото, иначе убираем <img> (останется эмодзи) */
-function phFail(img) {
-  const fb = PHOTO_FALLBACK[img.getAttribute('src')];
-  if (fb && img.getAttribute('src') !== fb) { img.src = fb; } else { img.remove(); }
-}
+/* Блюда показываются с иллюстрацией-эмодзи (фото убраны). */
+const dish = (cat, name, desc, price, weight, emoji, badge = '') =>
+  ({ id: 'd' + (++_dishSeq), cat, name, desc, price, weight, emoji, badge, photo: '' });
 
 const DISHES = [
   dish('hot', 'Стейк рибай', 'Мраморная говядина, картофель по-деревенски, соус демиглас', 6900, '320 г', '🥩', 'Хит'),
@@ -2619,7 +2497,6 @@ const HomeView = {
     const photos = CONFIG.heroImages.map((p, i) => `
       <figure class="ph ph-${i + 1}">
         <div class="ph-fb" style="--h:${p.hue}"><span>${p.emoji}</span></div>
-        <img src="${esc(p.src)}" alt="" referrerpolicy="no-referrer" loading="eager" onerror="this.remove()">
       </figure>`).join('');
     $('#app').innerHTML = `
     <div class="home">
@@ -2969,7 +2846,7 @@ const CustomerView = {
     const warm = WARM_CATS.includes(d.cat);
     return `<article class="dish" data-dish="${d.id}"${warm ? ' data-warm' : ''}>
       <div class="dish-photo" style="--h:${dishHue(d)}">
-        ${d.photo ? `<img src="${esc(d.photo)}" alt="${esc(d.name)}" loading="lazy" onerror="phFail(this)">` : ''}
+        
         <span class="plate" aria-hidden="true">${d.emoji}</span>
         ${warm ? '<span class="steam" aria-hidden="true"><i></i><i></i><i></i></span>' : ''}
         ${d.badge ? `<span class="dish-badge">${esc(d.badge)}</span>` : ''}
@@ -3178,7 +3055,7 @@ const CartUI = {
       : `<div class="free-card"><div class="fc-top">${icon('truck', 18)}<span>Добавьте ещё на <b>${money(q.leftForFree)}</b> и получите бесплатную доставку</span></div><div class="fc-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${q.progress}"><i style="width:${q.progress}%"></i></div><div class="fc-scale"><span>${money(q.sub)}</span><span>${money(CONFIG.freeDeliveryFrom)}</span></div></div>`;
     return `<div class="cart-scroll"><ul class="cart-list">${lines.map(({ dish: d, qty }) => `
       <li class="cart-item">
-        <div class="ci-ph" style="--h:${dishHue(d)}">${d.photo ? `<img src="${esc(d.photo)}" alt="" onerror="phFail(this)">` : ''}<span>${d.emoji}</span></div>
+        <div class="ci-ph" style="--h:${dishHue(d)}"><span>${d.emoji}</span></div>
         <div class="ci-info"><b>${esc(d.name)}</b><small>${money(d.price)} · ${esc(d.weight)}</small>
           <div class="stepper sm"><button data-action="decCart" data-id="${d.id}" aria-label="Уменьшить количество">${icon('minus', 16)}</button><span>${qty}</span><button data-action="incCart" data-id="${d.id}" aria-label="Увеличить количество">${icon('plus', 16)}</button></div></div>
         <div class="ci-side"><b>${money(d.price * qty)}</b><button class="icon-btn sm" data-action="removeFromCart" data-id="${d.id}" aria-label="Удалить ${esc(d.name)}" title="Удалить">${icon('trash', 18)}</button></div>
@@ -3408,7 +3285,7 @@ const RecUI = {
   card(x) {
     const d = x.d, q = Cart.qty(d.id), r = Extras.reviews.stats(d.id);
     return `<article class="rec-card" data-rec="${d.id}">
-      <div class="rec-ph" style="--h:${dishHue(d)}" data-action="openDish" data-id="${d.id}">${d.photo ? `<img src="${esc(d.photo)}" alt="" loading="lazy" onerror="phFail(this)">` : ''}<span class="plate">${d.emoji}</span></div>
+      <div class="rec-ph" style="--h:${dishHue(d)}" data-action="openDish" data-id="${d.id}"><span class="plate">${d.emoji}</span></div>
       <div class="rec-b"><span class="rec-why">${esc(x.why)}</span>
         <button type="button" class="rec-name" data-action="openDish" data-id="${d.id}">${esc(d.name)}</button>
         <div class="rec-f"><span class="price">${money(d.price)}</span>${r.count ? `<span class="rate-chip">★ ${r.avg.toFixed(1)}</span>` : ''}
@@ -3516,7 +3393,7 @@ const DishUI = {
     const q = Cart.qty(d.id), r = Extras.reviews.stats(d.id), warm = WARM_CATS.includes(d.cat);
     const recs = Extras.recs({ seeds: [d.id], limit: 4 });
     return `<div class="dm" data-dish="${d.id}">
-      <div class="dm-photo" style="--h:${dishHue(d)}">${d.photo ? `<img src="${esc(d.photo)}" alt="${esc(d.name)}" onerror="phFail(this)">` : ''}<span class="plate" aria-hidden="true">${d.emoji}</span>${warm ? '<span class="steam" aria-hidden="true"><i></i><i></i><i></i></span>' : ''}${d.badge ? `<span class="dish-badge">${esc(d.badge)}</span>` : ''}${FavUI.btn(d.id, Extras.fav.has(d.id))}</div>
+      <div class="dm-photo" style="--h:${dishHue(d)}"><span class="plate" aria-hidden="true">${d.emoji}</span>${warm ? '<span class="steam" aria-hidden="true"><i></i><i></i><i></i></span>' : ''}${d.badge ? `<span class="dish-badge">${esc(d.badge)}</span>` : ''}${FavUI.btn(d.id, Extras.fav.has(d.id))}</div>
       <div class="dm-body">
         <div class="dm-top"><h2>${esc(d.name)}</h2><span class="dish-w">${esc(d.weight)}</span></div>
         <div class="dm-rate">${r.count ? `${stars(r.avg)}<b>${r.avg.toFixed(1)}</b><span>· ${r.count} ${plural(r.count, ['отзыв', 'отзыва', 'отзывов'])}</span>` : '<span class="muted">Пока без оценок</span>'}<span class="dm-cat">${(Catalog.cat(d.cat) || {}).emoji || ''} ${esc((Catalog.cat(d.cat) || {}).name || '')}</span></div>
@@ -3553,7 +3430,7 @@ const ReviewUI = {
     const row = i => {
       const d = Catalog.get(i.id), mine = Extras.reviews.mine(o.id, d.id), v = mine ? mine.rating : 0;
       return `<div class="rv-row" data-dish="${d.id}">
-        <div class="rv-dish"><div class="ci-ph" style="--h:${dishHue(d)}">${d.photo ? `<img src="${esc(d.photo)}" alt="" onerror="phFail(this)">` : ''}<span>${d.emoji}</span></div><div><b>${esc(d.name)}</b><small>${i.qty} × · ${mine ? 'ваш отзыв можно изменить' : 'как вам блюдо?'}</small></div></div>
+        <div class="rv-dish"><div class="ci-ph" style="--h:${dishHue(d)}"><span>${d.emoji}</span></div><div><b>${esc(d.name)}</b><small>${i.qty} × · ${mine ? 'ваш отзыв можно изменить' : 'как вам блюдо?'}</small></div></div>
         <div class="star-input" role="radiogroup" aria-label="Оценка блюда ${esc(d.name)}">${[5, 4, 3, 2, 1].map(n => `<input type="radio" name="r_${d.id}" id="r_${d.id}_${n}" value="${n}" ${v === n ? 'checked' : ''}><label for="r_${d.id}_${n}" title="${['', 'Плохо', 'Так себе', 'Нормально', 'Хорошо', 'Отлично'][n]}"><span class="sr">${n}</span>★</label>`).join('')}</div>
         <textarea name="t_${d.id}" rows="2" maxlength="300" placeholder="Расскажите о блюде (необязательно)">${esc(mine ? mine.text : '')}</textarea>
         <div class="field-error rv-err" role="alert"></div></div>`;
