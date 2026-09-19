@@ -1616,61 +1616,60 @@ let _dishSeq = 0;
 const G = id => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:' + id;
 const MENU_PHOTOS = {
   /* Горячее */
-  'Стейк рибай':                'https://avatars.mds.yandex.net/get-vertis-journal/4469561/7a7adbe5-7833-4841-b87c-6e60088ff1a3.jpg/1600x1600',
-  'Плов по-восточному':         'dish-02.webp',
-  'Лосось на гриле':            G('ANd9GcSCwcXUyeCzq3i43IJOzYr_Vfgs3a1rONaHND5j3P7k92ZF21USlG7Umu0&s=10'),
-  'Бешбармак':                  'dish-04.webp',
+  'Стейк рибай':                  'https://avatars.mds.yandex.net/get-vertis-journal/4469561/7a7adbe5-7833-4841-b87c-6e60088ff1a3.jpg/1600x1600',
+  'Плов по-восточному':           G('ANd9GcQrUjpEoHV8lL1hcx9SJvlZ9Ss3ihy44FPqoz_MWx9kIFbuZqH_5JPN_Gc&s=10'),
+  'Лосось на гриле':              'https://www.kikkoman.ru/fileadmin/_processed_/a/2/csm_217-recipe-page-marinated-grilled-salmon_mobile_44014d14b0.webp',
+  'Бешбармак':                    G('ANd9GcRgT_jBnJHiPcdwNUAQC6JZuglqf8DV3dwlFY8L9KVE4w&s=10'),
   /* Завтраки */
-  'Сырники со сметаной':        'dish-05.webp',
-  'Омлет с лососем':            'dish-06.webp',
-  'Гранола с йогуртом':         'dish-07.webp',
+  'Сырники со сметаной':          G('ANd9GcTmJ1AC5i-3aMzTtAxuuIs4S6giBnQhshdlWEHidPyfsgqeYyPCj666Ll2D&s=10'),
+  'Омлет с лососем':              'https://images.gastronom.ru/WNWSqnRMU5i6AA9-JYuSjl_ErYVaKSN8l26eNXA_DP0/pr:recipe-cover-image/g:ce/rs:auto:0:0:0/L2Ntcy9hbGwtaW1hZ2VzL2MzODMwMWI0LWRiNDMtNDYyMi1iNzUzLTNhZThmYWM1ZDQ5ZC5qcGc.webp',
+  'Гранола с йогуртом':           'https://img.iamcook.ru/2025/upl/recipes/zen/u-797663872e1d156c910468f41c6c473c.JPG',
   /* Закуски */
-  'Начос с гуакамоле':          'dish-08.webp',
-  'Луковые кольца':             'dish-09.webp',
-  'Сырные палочки':             G('ANd9GcS97YgrZsp4Oih67K0Kofulm2Y60XHxb6R2jRHyzyu3p0DCbjPWUHtahW0&s=10'),
+  'Начос с гуакамоле':            G('ANd9GcS-fPh6c8igIwgfcbGgboTtmDhRSFmn6e3teTkkGEtqAHf0L8ImKpZOroGL&s=10'),
+  'Луковые кольца':               G('ANd9GcRZPjJ6qcpacuUx-A_lK8A-a_JBDc5DXOI8Bcc025Iak9OOhJdfaTUj_iiv&s=10'),
+  'Сырные палочки':               G('ANd9GcS97YgrZsp4Oih67K0Kofulm2Y60XHxb6R2jRHyzyu3p0DCbjPWUHtahW0&s=10'),
   /* Десерты */
-  'Чизкейк Нью-Йорк':           'dish-11.webp',
-  'Тирамису':                   'dish-12.webp',
-  'Шоколадный фондан':          'dish-13.webp',
+  'Чизкейк Нью-Йорк':             'https://la-torta.ua/content/uploads/images/12-cake.jpg',
+  'Тирамису':                     'https://italy4.me/wp-content/uploads/2016/12/tiramisu_cr.jpg',
+  'Шоколадный фондан':            G('ANd9GcRUsN9VcaXoqd-01x18BfQ2P7LX-W4E_Rb8PY5pmtMA3C7XpRKHYszYg6O9&s=10'),
   /* Напитки */
-  'Лимонад «Цитрус»':           'dish-14.webp',
-  'Клюквенный морс':            'dish-15.webp',
-  'Апельсиновый фреш':          'dish-16.webp',
+  'Лимонад «Цитрус»':             'https://www.osteria.ru/upload/iblock/7a6/l0iwp7bo7vdv6t21kkf1i3kh5pqagbjx/DSCF1569.jpg',
+  'Клюквенный морс':              G('ANd9GcRAybZJiVIaexCwyHrUZKBlvVtkTj_7RJaD56aA9jq-OA&s=10'),
+  'Апельсиновый фреш':            'https://www.yamdiet.com/wp-content/uploads/02-6.jpg',
   /* Салаты */
-  'Цезарь с курицей':           'dish-17.webp',
-  'Греческий салат':            'dish-18.webp',
-  'Салат с тунцом':             'dish-19.webp',
+  'Цезарь с курицей':             'https://images.gastronom.ru/LoVJjeEYXJQ3vR2Yn8WtlivB0eZ78Rtu417zEnX1mZs/pr:recipe-cover-image/g:ce/rs:auto:0:0:0/L2Ntcy9hbGwtaW1hZ2VzL2IxMzU5MzRkLWI1OTAtNDQ4Zi05MjA3LWQ5YzEzM2M2ODZlNy5qcGc.webp',
+  'Греческий салат':              G('ANd9GcRDdJN6-YNI94xCC7HoIw9SwS-0DbWAqzkwqXcXvbzi_Q&s=10'),
+  'Салат с тунцом':               G('ANd9GcS_GSSougvF4SglHRX-OYGM5YBXqeVSTdxUeerKYgMzrq9OTmRz0pFG0fzd&s=10'),
   /* Паста */
-  'Карбонара':                  'dish-20.webp',
-  'Болоньезе':                  'dish-21.webp',
-  'Паста с креветками':         'dish-22.webp',
+  'Карбонара':                    'https://menunedeli.ru/wp-content/uploads/2022/09/Pasta-Karbonara-500%D1%85350.jpg.jpg',
+  'Болоньезе':                    'https://www.chefmarket.ru/blog/wp-content/uploads/2021/10/plate-of-traditional-spaghetti-2000x1200.jpg',
+  'Паста с креветками':           G('ANd9GcSCWuw9p-6A-tqXzypVFwAvOnrTmCy8Up7zug2pFBA2eFQjX1vbe3_ftwk&s=10'),
   /* Фастфуд */
-  'Чикен бургер':               'dish-23.webp',
-  'Чизбургер':                  'dish-24.webp',
-  'Картофель фри':              'dish-25.webp',
-  'Хот-дог':                    'dish-26.webp',
-  'Пицца Пепперони':            'dish-27.webp',
+  'Чикен бургер':                 'https://kuldim.com/wa-data/public/shop/products/49/60/6049/images/28427/28427.970.jpg',
+  'Чизбургер':                    'https://img.avtosushi.ru/resize?quality=90&height=600&width=600&url=https%3A%2F%2Fresizer.avtosushi.ru%2Fcache%2F3%2Fb%2F2%2F3b2d1563-ba2c-48f2-b282-9fdc50463b8c.png&sign=ECmXu2p_ntGUqkwqsX2mBlEbuwKevT__23eaaSakf2c',
+  'Картофель фри':                'https://www.tvcook.ru/old/wp-content/uploads/images/topic/2012/03/24/9d09874691.jpg',
+  'Хот-дог':                      'https://img.magnific.com/free-psd/classic-hot-dog-with-mustard-toppings-transparent-background_84443-72579.jpg?semt=ais_hybrid&w=740&q=80',
+  'Пицца Пепперони':              'https://chudobludo.com/assets/images/products/542/medium/25903.png',
   /* Диетическое */
-  'Куриная грудка с киноа':     'dish-28.webp',
-  'Треска с овощами':           'dish-29.webp',
-  'Боул с индейкой':            G('ANd9GcQwaOjLhmGhcF7AwQWE_MtoF_CD_8WwC1rk2JG_s3ic6gGOK9kUlBn-UXE&s=10'),
+   'Куриная грудка с киноа':       G('ANd9GcSCwcXUyeCzq3i43IJOzYr_Vfgs3a1rONaHND5j3P7k92ZF21USlG7Umu0&s=10'),
+  'Треска с овощами':             G('ANd9GcRmPmwo1507BKgwatyZJ8rFFwZkFUGyCiGeEqPkLlRIb3a6t8xov1-Htdfe&s=10'),
+  'Боул с индейкой':              G('ANd9GcQwaOjLhmGhcF7AwQWE_MtoF_CD_8WwC1rk2JG_s3ic6gGOK9kUlBn-UXE&s=10'),
   /* Веганское */
-  'Веган-боул с нутом':         G('ANd9GcRnhf-k1BNJjTIl_HMBjacV9E_J52Hs7KKkVHiRDvK9BA&s'),
-  'Тофу-вок с овощами':         G('ANd9GcTpqHd77tAF3IjYU2b6ZxHfJxpBIxlyO0LHw7zF-ALoyn0F6Pb84lJWC9P7&s=10'),
-  'Котлеты из чечевицы':        'https://yastatic.net/avatars/get-grocery-goods/15712601/b8833fcd-8d05-47ec-8921-1b9776df93bc/300x300?webp=true',
+  'Веган-боул с нутом':           G('ANd9GcRnhf-k1BNJjTIl_HMBjacV9E_J52Hs7KKkVHiRDvK9BA&s'),
+  'Тофу-вок с овощами':           G('ANd9GcTpqHd77tAF3IjYU2b6ZxHfJxpBIxlyO0LHw7zF-ALoyn0F6Pb84lJWC9P7&s=10'),
+  'Котлеты из чечевицы':          'https://yastatic.net/avatars/get-grocery-goods/15712601/b8833fcd-8d05-47ec-8921-1b9776df93bc/300x300?webp=true',
   /* Холодные напитки */
-  'Айс-латте':                  G('ANd9GcR8T8oEuEVgfnTYaISYB7uwHQM9tferi6VCw9BDPohTE-HSJ4uAL5iP3MsO&s=10'),
-  'Матча-тоник':                'https://static.tildacdn.com/stor3964-3332-4366-b138-656166326131/77559942.jpg',
-  'Холодный чай «Персик»':      G('ANd9GcQqCvzquwrjR8NylOzDTgTPsuQBVY4LnSWyPLzRsoeHyFjci2Et6qVzdteA&s=10'),
+  'Айс-латте':                    G('ANd9GcR8T8oEuEVgfnTYaISYB7uwHQM9tferi6VCw9BDPohTE-HSJ4uAL5iP3MsO&s=10'),
+  'Матча-тоник':                  'https://static.tildacdn.com/stor3964-3332-4366-b138-656166326131/77559942.jpg',
+  'Холодный чай «Персик»':        G('ANd9GcQqCvzquwrjR8NylOzDTgTPsuQBVY4LnSWyPLzRsoeHyFjci2Et6qVzdteA&s=10'),
   /* Кофе */
-  'Капучино':                   G('ANd9GcT9OsFUGYvsnNMLBINUCpS6ktQxz3hovNaVLYMeMotl7X6Ttxxm99aQoL5V&s=10'),
-  'Флэт уайт':                  G('ANd9GcT0_SrM1xfqbcrafnCRdBCLLqVLa0TBk5TwOTYHFZSYFgidVUQR7qOkeJ3R&s=10'),
-  'Раф ванильный':              G('ANd9GcQ3hRP0ICWj4ncKiNGiLZt4mwp5wAizWOzTBHw4RrT2oA&s=10'),
+  'Капучино':                     G('ANd9GcT9OsFUGYvsnNMLBINUCpS6ktQxz3hovNaVLYMeMotl7X6Ttxxm99aQoL5V&s=10'),
+  'Флэт уайт':                    G('ANd9GcT0_SrM1xfqbcrafnCRdBCLLqVLa0TBk5TwOTYHFZSYFgidVUQR7qOkeJ3R&s=10'),
+  'Раф ванильный':                G('ANd9GcQ3hRP0ICWj4ncKiNGiLZt4mwp5wAizWOzTBHw4RrT2oA&s=10'),
   /* Чай */
-  'Зелёный жасмин':             'dish-40.webp',
-  'Чёрный с бергамотом':        'dish-41.webp',
-  'Масала-чай':                 G('ANd9GcQny_AVoefwUmddfsltee2L3DpfJg5a5Meoo6jebXV8IGC_Zibr2nC0O37m&s=10'),
-};
+  'Зелёный жасмин':               G('ANd9GcTzeambl_-7y_xNNe1ZFbz6J4Ynq_hL2N7dvYqYdItFzW35xpFY2bFa5Q-n&s=10'),
+  'Чёрный с бергамотом':          G('ANd9GcSOPJdmMQr8_r-rurUyLTaOs_dEXoqAQGWELFezDI0FzLCWj5FM340PXugH&s=10'),
+  'Масала-чай':                   G('ANd9GcQny_AVoefwUmddfsltee2L3DpfJg5a5Meoo6jebXV8IGC_Zibr2nC0O37m&s=10'),
 const PHOTO_FALLBACK = {};   // ссылка из интернета → встроенное фото
 const dish = (cat, name, desc, price, weight, emoji, badge = '') => {
   const src = MENU_PHOTOS[name] || '';
