@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0a0a0a">
+<meta name="referrer" content="no-referrer">
 <title>Moggs Delivery — доставка еды</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1651,7 +1652,7 @@ const MENU_PHOTOS = {
   'Хот-дог':                      'https://img.magnific.com/free-psd/classic-hot-dog-with-mustard-toppings-transparent-background_84443-72579.jpg?semt=ais_hybrid&w=740&q=80',
   'Пицца Пепперони':              'https://chudobludo.com/assets/images/products/542/medium/25903.png',
   /* Диетическое */
-   'Куриная грудка с киноа':       G('ANd9GcSCwcXUyeCzq3i43IJOzYr_Vfgs3a1rONaHND5j3P7k92ZF21USlG7Umu0&s=10'),
+  'Куриная грудка с киноа':       G('ANd9GcSCwcXUyeCzq3i43IJOzYr_Vfgs3a1rONaHND5j3P7k92ZF21USlG7Umu0&s=10'),
   'Треска с овощами':             G('ANd9GcRmPmwo1507BKgwatyZJ8rFFwZkFUGyCiGeEqPkLlRIb3a6t8xov1-Htdfe&s=10'),
   'Боул с индейкой':              G('ANd9GcQwaOjLhmGhcF7AwQWE_MtoF_CD_8WwC1rk2JG_s3ic6gGOK9kUlBn-UXE&s=10'),
   /* Веганское */
@@ -1670,6 +1671,7 @@ const MENU_PHOTOS = {
   'Зелёный жасмин':               G('ANd9GcTzeambl_-7y_xNNe1ZFbz6J4Ynq_hL2N7dvYqYdItFzW35xpFY2bFa5Q-n&s=10'),
   'Чёрный с бергамотом':          G('ANd9GcSOPJdmMQr8_r-rurUyLTaOs_dEXoqAQGWELFezDI0FzLCWj5FM340PXugH&s=10'),
   'Масала-чай':                   G('ANd9GcQny_AVoefwUmddfsltee2L3DpfJg5a5Meoo6jebXV8IGC_Zibr2nC0O37m&s=10'),
+};
 const PHOTO_FALLBACK = {};   // ссылка из интернета → встроенное фото
 const dish = (cat, name, desc, price, weight, emoji, badge = '') => {
   const src = MENU_PHOTOS[name] || '';
