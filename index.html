@@ -1563,6 +1563,7 @@ const CATEGORIES = [
 /* блюда, над которыми на карточке идёт «пар» (анимация при наведении) */
 const WARM_CATS = ['hot', 'breakfast', 'pasta', 'fastfood', 'coffee', 'tea'];
 const PHOTO_DIR = 'photos/';   // запасной путь: папка photos рядом с index.html (фото уже встроены в файл — см. PHOTO_DATA)
+/* запасные встроенные фото (файлы dish-NN.webp) */
 const PHOTOS = {
   "Стейк рибай": 'dish-01.webp',
   "Плов по-восточному": 'dish-02.webp',
@@ -1608,30 +1609,76 @@ const PHOTOS = {
   "Масала-чай": 'dish-42.webp',
 };
 let _dishSeq = 0;
-/* фото из интернета (подобраны под блюда). Если ссылка не открылась (нет сети) — показывается встроенное фото, а если и его нет — эмодзи */
+/* ФОТО ДЛЯ КАЖДОГО БЛЮДА — по одной строке на блюдо (все 42), в порядке меню.
+   • ссылка https://… — фото из интернета (нужна сеть; если не откроется — покажется встроенное);
+   • 'dish-NN.webp'  — фото, встроенное в файл (или лежащее в папке photos/).
+   Чтобы сменить картинку блюда — замените значение напротив его названия. */
 const G = id => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:' + id;
-const WEB_PHOTOS = {
-  'Раф ванильный':           G('ANd9GcQ3hRP0ICWj4ncKiNGiLZt4mwp5wAizWOzTBHw4RrT2oA&s=10'),
-  'Флэт уайт':               G('ANd9GcT0_SrM1xfqbcrafnCRdBCLLqVLa0TBk5TwOTYHFZSYFgidVUQR7qOkeJ3R&s=10'),
-  'Капучино':                G('ANd9GcT9OsFUGYvsnNMLBINUCpS6ktQxz3hovNaVLYMeMotl7X6Ttxxm99aQoL5V&s=10'),
-  'Холодный чай «Персик»':   G('ANd9GcQqCvzquwrjR8NylOzDTgTPsuQBVY4LnSWyPLzRsoeHyFjci2Et6qVzdteA&s=10'),
-  'Матча-тоник':             'https://static.tildacdn.com/stor3964-3332-4366-b138-656166326131/77559942.jpg',
-  'Айс-латте':               G('ANd9GcR8T8oEuEVgfnTYaISYB7uwHQM9tferi6VCw9BDPohTE-HSJ4uAL5iP3MsO&s=10'),
-  'Котлеты из чечевицы':     'https://yastatic.net/avatars/get-grocery-goods/15712601/b8833fcd-8d05-47ec-8921-1b9776df93bc/300x300?webp=true',
-  'Тофу-вок с овощами':      G('ANd9GcTpqHd77tAF3IjYU2b6ZxHfJxpBIxlyO0LHw7zF-ALoyn0F6Pb84lJWC9P7&s=10'),
-  'Веган-боул с нутом':      G('ANd9GcRnhf-k1BNJjTIl_HMBjacV9E_J52Hs7KKkVHiRDvK9BA&s'),
-  'Масала-чай':              G('ANd9GcQny_AVoefwUmddfsltee2L3DpfJg5a5Meoo6jebXV8IGC_Zibr2nC0O37m&s=10'),
-  'Боул с индейкой':         G('ANd9GcQwaOjLhmGhcF7AwQWE_MtoF_CD_8WwC1rk2JG_s3ic6gGOK9kUlBn-UXE&s=10'),
-  'Стейк рибай':             'https://avatars.mds.yandex.net/get-vertis-journal/4469561/7a7adbe5-7833-4841-b87c-6e60088ff1a3.jpg/1600x1600',
-  'Лосось на гриле':         G('ANd9GcSCwcXUyeCzq3i43IJOzYr_Vfgs3a1rONaHND5j3P7k92ZF21USlG7Umu0&s=10'),
-  'Сырные палочки':          G('ANd9GcS97YgrZsp4Oih67K0Kofulm2Y60XHxb6R2jRHyzyu3p0DCbjPWUHtahW0&s=10'),
+const MENU_PHOTOS = {
+  /* Горячее */
+  'Стейк рибай':                'https://avatars.mds.yandex.net/get-vertis-journal/4469561/7a7adbe5-7833-4841-b87c-6e60088ff1a3.jpg/1600x1600',
+  'Плов по-восточному':         'dish-02.webp',
+  'Лосось на гриле':            G('ANd9GcSCwcXUyeCzq3i43IJOzYr_Vfgs3a1rONaHND5j3P7k92ZF21USlG7Umu0&s=10'),
+  'Бешбармак':                  'dish-04.webp',
+  /* Завтраки */
+  'Сырники со сметаной':        'dish-05.webp',
+  'Омлет с лососем':            'dish-06.webp',
+  'Гранола с йогуртом':         'dish-07.webp',
+  /* Закуски */
+  'Начос с гуакамоле':          'dish-08.webp',
+  'Луковые кольца':             'dish-09.webp',
+  'Сырные палочки':             G('ANd9GcS97YgrZsp4Oih67K0Kofulm2Y60XHxb6R2jRHyzyu3p0DCbjPWUHtahW0&s=10'),
+  /* Десерты */
+  'Чизкейк Нью-Йорк':           'dish-11.webp',
+  'Тирамису':                   'dish-12.webp',
+  'Шоколадный фондан':          'dish-13.webp',
+  /* Напитки */
+  'Лимонад «Цитрус»':           'dish-14.webp',
+  'Клюквенный морс':            'dish-15.webp',
+  'Апельсиновый фреш':          'dish-16.webp',
+  /* Салаты */
+  'Цезарь с курицей':           'dish-17.webp',
+  'Греческий салат':            'dish-18.webp',
+  'Салат с тунцом':             'dish-19.webp',
+  /* Паста */
+  'Карбонара':                  'dish-20.webp',
+  'Болоньезе':                  'dish-21.webp',
+  'Паста с креветками':         'dish-22.webp',
+  /* Фастфуд */
+  'Чикен бургер':               'dish-23.webp',
+  'Чизбургер':                  'dish-24.webp',
+  'Картофель фри':              'dish-25.webp',
+  'Хот-дог':                    'dish-26.webp',
+  'Пицца Пепперони':            'dish-27.webp',
+  /* Диетическое */
+  'Куриная грудка с киноа':     'dish-28.webp',
+  'Треска с овощами':           'dish-29.webp',
+  'Боул с индейкой':            G('ANd9GcQwaOjLhmGhcF7AwQWE_MtoF_CD_8WwC1rk2JG_s3ic6gGOK9kUlBn-UXE&s=10'),
+  /* Веганское */
+  'Веган-боул с нутом':         G('ANd9GcRnhf-k1BNJjTIl_HMBjacV9E_J52Hs7KKkVHiRDvK9BA&s'),
+  'Тофу-вок с овощами':         G('ANd9GcTpqHd77tAF3IjYU2b6ZxHfJxpBIxlyO0LHw7zF-ALoyn0F6Pb84lJWC9P7&s=10'),
+  'Котлеты из чечевицы':        'https://yastatic.net/avatars/get-grocery-goods/15712601/b8833fcd-8d05-47ec-8921-1b9776df93bc/300x300?webp=true',
+  /* Холодные напитки */
+  'Айс-латте':                  G('ANd9GcR8T8oEuEVgfnTYaISYB7uwHQM9tferi6VCw9BDPohTE-HSJ4uAL5iP3MsO&s=10'),
+  'Матча-тоник':                'https://static.tildacdn.com/stor3964-3332-4366-b138-656166326131/77559942.jpg',
+  'Холодный чай «Персик»':      G('ANd9GcQqCvzquwrjR8NylOzDTgTPsuQBVY4LnSWyPLzRsoeHyFjci2Et6qVzdteA&s=10'),
+  /* Кофе */
+  'Капучино':                   G('ANd9GcT9OsFUGYvsnNMLBINUCpS6ktQxz3hovNaVLYMeMotl7X6Ttxxm99aQoL5V&s=10'),
+  'Флэт уайт':                  G('ANd9GcT0_SrM1xfqbcrafnCRdBCLLqVLa0TBk5TwOTYHFZSYFgidVUQR7qOkeJ3R&s=10'),
+  'Раф ванильный':              G('ANd9GcQ3hRP0ICWj4ncKiNGiLZt4mwp5wAizWOzTBHw4RrT2oA&s=10'),
+  /* Чай */
+  'Зелёный жасмин':             'dish-40.webp',
+  'Чёрный с бергамотом':        'dish-41.webp',
+  'Масала-чай':                 G('ANd9GcQny_AVoefwUmddfsltee2L3DpfJg5a5Meoo6jebXV8IGC_Zibr2nC0O37m&s=10'),
 };
 const PHOTO_FALLBACK = {};   // ссылка из интернета → встроенное фото
 const dish = (cat, name, desc, price, weight, emoji, badge = '') => {
-  const local = PHOTOS[name] ? (PHOTO_DATA[PHOTOS[name]] || PHOTO_DIR + PHOTOS[name]) : '';
-  const web = WEB_PHOTOS[name];
-  if (web && local) PHOTO_FALLBACK[web] = local;
-  return { id: 'd' + (++_dishSeq), cat, name, desc, price, weight, emoji, badge, photo: web || local };
+  const src = MENU_PHOTOS[name] || '';
+  const isWeb = /^https?:/.test(src);
+  const localName = isWeb ? PHOTOS[name] : src;                       // встроенное / из папки photos/
+  const local = localName ? (PHOTO_DATA[localName] || PHOTO_DIR + localName) : '';
+  if (isWeb && local) PHOTO_FALLBACK[src] = local;                     // запасное фото на случай, если ссылка не откроется
+  return { id: 'd' + (++_dishSeq), cat, name, desc, price, weight, emoji, badge, photo: isWeb ? src : local };
 };
 /* onerror у фото блюда: пробуем встроенное фото, иначе убираем <img> (останется эмодзи) */
 function phFail(img) {
