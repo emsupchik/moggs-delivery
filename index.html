@@ -1531,13 +1531,12 @@ const CONFIG = {
   sim: { acceptedMs: 7000, cookingMs: 10000, pickupMs: 4000 },   // автопереходы статусов (кухня)
 
   /* ── КАРТИНКИ ГЛАВНОЙ ──────────────────────────────────────────
-     Три фото в наклонном ряду вместо фонового видео с горами.
-     Сейчас показываются иллюстрации-эмодзи. Чтобы поставить свои фото,
-     вставьте ссылку в src (например 'img/1.jpg').       */
+     Три фото в наклонном ряду. Берутся из папки photos/ (рядом с index.html).
+     Если файла нет — показывается заглушка (emoji), сайт не ломается.   */
   heroImages: [
-    { src: '', emoji: '🍔', hue: 18 },
-    { src: '', emoji: '🍕', hue: 38 },
-    { src: '', emoji: '🥗', hue: 130 },
+    { src: 'photos/dish-23.webp', emoji: '🍔', hue: 18 },
+    { src: 'photos/dish-27.webp', emoji: '🍕', hue: 38 },
+    { src: 'photos/dish-17.webp', emoji: '🥗', hue: 130 },
   ],
 };
 
@@ -1557,13 +1556,63 @@ const CATEGORIES = [
   { id: 'tea',       emoji: '🍵', name: 'Чай',              hue: 80 },
 ];
 
-/* BACKEND: каталог придёт с сервера (GET /menu). Блюда показываются с иллюстрацией-эмодзи. */
+/* BACKEND: каталог придёт с сервера (GET /menu). Поле photo — путь к фото блюда (см. PHOTOS ниже);
+   если фото нет или не загрузилось — показывается иллюстрация-эмодзи. */
 /* блюда, над которыми на карточке идёт «пар» (анимация при наведении) */
 const WARM_CATS = ['hot', 'breakfast', 'pasta', 'fastfood', 'coffee', 'tea'];
+const PHOTO_DIR = 'photos/';   // папка с фото рядом с index.html
+/* какое фото у какого блюда (файлы в папке photos/) */
+const PHOTOS = {
+  "Стейк рибай": 'dish-01.webp',
+  "Плов по-восточному": 'dish-02.webp',
+  "Лосось на гриле": 'dish-03.webp',
+  "Бешбармак": 'dish-04.webp',
+  "Сырники со сметаной": 'dish-05.webp',
+  "Омлет с лососем": 'dish-06.webp',
+  "Гранола с йогуртом": 'dish-07.webp',
+  "Начос с гуакамоле": 'dish-08.webp',
+  "Луковые кольца": 'dish-09.webp',
+  "Сырные палочки": 'dish-10.webp',
+  "Чизкейк Нью-Йорк": 'dish-11.webp',
+  "Тирамису": 'dish-12.webp',
+  "Шоколадный фондан": 'dish-13.webp',
+  "Лимонад «Цитрус»": 'dish-14.webp',
+  "Клюквенный морс": 'dish-15.webp',
+  "Апельсиновый фреш": 'dish-16.webp',
+  "Цезарь с курицей": 'dish-17.webp',
+  "Греческий салат": 'dish-18.webp',
+  "Салат с тунцом": 'dish-19.webp',
+  "Карбонара": 'dish-20.webp',
+  "Болоньезе": 'dish-21.webp',
+  "Паста с креветками": 'dish-22.webp',
+  "Чикен бургер": 'dish-23.webp',
+  "Чизбургер": 'dish-24.webp',
+  "Картофель фри": 'dish-25.webp',
+  "Хот-дог": 'dish-26.webp',
+  "Пицца Пепперони": 'dish-27.webp',
+  "Куриная грудка с киноа": 'dish-28.webp',
+  "Треска с овощами": 'dish-29.webp',
+  "Боул с индейкой": 'dish-30.webp',
+  "Веган-боул с нутом": 'dish-31.webp',
+  "Тофу-вок с овощами": 'dish-32.webp',
+  "Котлеты из чечевицы": 'dish-33.webp',
+  "Айс-латте": 'dish-34.webp',
+  "Матча-тоник": 'dish-35.webp',
+  "Холодный чай «Персик»": 'dish-36.webp',
+  "Капучино": 'dish-37.webp',
+  "Флэт уайт": 'dish-38.webp',
+  "Раф ванильный": 'dish-39.webp',
+  "Зелёный жасмин": 'dish-40.webp',
+  "Чёрный с бергамотом": 'dish-41.webp',
+  "Масала-чай": 'dish-42.webp',
+};
 let _dishSeq = 0;
-/* Блюда показываются с иллюстрацией-эмодзи (фото убраны). */
+/* Фото блюд лежат в папке photos/ рядом с index.html (файлы dish-01.webp … dish-42.webp).
+   Чтобы сменить картинку блюда — замените имя файла напротив его названия в PHOTOS. */
 const dish = (cat, name, desc, price, weight, emoji, badge = '') =>
-  ({ id: 'd' + (++_dishSeq), cat, name, desc, price, weight, emoji, badge, photo: '' });
+  ({ id: 'd' + (++_dishSeq), cat, name, desc, price, weight, emoji, badge, photo: PHOTOS[name] ? PHOTO_DIR + PHOTOS[name] : '' });
+/* onerror у фото блюда: файла нет — убираем <img>, остаётся эмодзи */
+function phFail(img) { img.remove(); }
 
 const DISHES = [
   dish('hot', 'Стейк рибай', 'Мраморная говядина, картофель по-деревенски, соус демиглас', 6900, '320 г', '🥩', 'Хит'),
@@ -2497,6 +2546,7 @@ const HomeView = {
     const photos = CONFIG.heroImages.map((p, i) => `
       <figure class="ph ph-${i + 1}">
         <div class="ph-fb" style="--h:${p.hue}"><span>${p.emoji}</span></div>
+        <img src="${esc(p.src)}" alt="" referrerpolicy="no-referrer" loading="eager" onerror="this.remove()">
       </figure>`).join('');
     $('#app').innerHTML = `
     <div class="home">
@@ -2846,7 +2896,7 @@ const CustomerView = {
     const warm = WARM_CATS.includes(d.cat);
     return `<article class="dish" data-dish="${d.id}"${warm ? ' data-warm' : ''}>
       <div class="dish-photo" style="--h:${dishHue(d)}">
-        
+        ${d.photo ? `<img src="${esc(d.photo)}" alt="${esc(d.name)}" loading="lazy" onerror="phFail(this)">` : ''}
         <span class="plate" aria-hidden="true">${d.emoji}</span>
         ${warm ? '<span class="steam" aria-hidden="true"><i></i><i></i><i></i></span>' : ''}
         ${d.badge ? `<span class="dish-badge">${esc(d.badge)}</span>` : ''}
@@ -3055,7 +3105,7 @@ const CartUI = {
       : `<div class="free-card"><div class="fc-top">${icon('truck', 18)}<span>Добавьте ещё на <b>${money(q.leftForFree)}</b> и получите бесплатную доставку</span></div><div class="fc-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${q.progress}"><i style="width:${q.progress}%"></i></div><div class="fc-scale"><span>${money(q.sub)}</span><span>${money(CONFIG.freeDeliveryFrom)}</span></div></div>`;
     return `<div class="cart-scroll"><ul class="cart-list">${lines.map(({ dish: d, qty }) => `
       <li class="cart-item">
-        <div class="ci-ph" style="--h:${dishHue(d)}"><span>${d.emoji}</span></div>
+        <div class="ci-ph" style="--h:${dishHue(d)}">${d.photo ? `<img src="${esc(d.photo)}" alt="" onerror="phFail(this)">` : ''}<span>${d.emoji}</span></div>
         <div class="ci-info"><b>${esc(d.name)}</b><small>${money(d.price)} · ${esc(d.weight)}</small>
           <div class="stepper sm"><button data-action="decCart" data-id="${d.id}" aria-label="Уменьшить количество">${icon('minus', 16)}</button><span>${qty}</span><button data-action="incCart" data-id="${d.id}" aria-label="Увеличить количество">${icon('plus', 16)}</button></div></div>
         <div class="ci-side"><b>${money(d.price * qty)}</b><button class="icon-btn sm" data-action="removeFromCart" data-id="${d.id}" aria-label="Удалить ${esc(d.name)}" title="Удалить">${icon('trash', 18)}</button></div>
@@ -3285,7 +3335,7 @@ const RecUI = {
   card(x) {
     const d = x.d, q = Cart.qty(d.id), r = Extras.reviews.stats(d.id);
     return `<article class="rec-card" data-rec="${d.id}">
-      <div class="rec-ph" style="--h:${dishHue(d)}" data-action="openDish" data-id="${d.id}"><span class="plate">${d.emoji}</span></div>
+      <div class="rec-ph" style="--h:${dishHue(d)}" data-action="openDish" data-id="${d.id}">${d.photo ? `<img src="${esc(d.photo)}" alt="" loading="lazy" onerror="phFail(this)">` : ''}<span class="plate">${d.emoji}</span></div>
       <div class="rec-b"><span class="rec-why">${esc(x.why)}</span>
         <button type="button" class="rec-name" data-action="openDish" data-id="${d.id}">${esc(d.name)}</button>
         <div class="rec-f"><span class="price">${money(d.price)}</span>${r.count ? `<span class="rate-chip">★ ${r.avg.toFixed(1)}</span>` : ''}
@@ -3393,7 +3443,7 @@ const DishUI = {
     const q = Cart.qty(d.id), r = Extras.reviews.stats(d.id), warm = WARM_CATS.includes(d.cat);
     const recs = Extras.recs({ seeds: [d.id], limit: 4 });
     return `<div class="dm" data-dish="${d.id}">
-      <div class="dm-photo" style="--h:${dishHue(d)}"><span class="plate" aria-hidden="true">${d.emoji}</span>${warm ? '<span class="steam" aria-hidden="true"><i></i><i></i><i></i></span>' : ''}${d.badge ? `<span class="dish-badge">${esc(d.badge)}</span>` : ''}${FavUI.btn(d.id, Extras.fav.has(d.id))}</div>
+      <div class="dm-photo" style="--h:${dishHue(d)}">${d.photo ? `<img src="${esc(d.photo)}" alt="${esc(d.name)}" onerror="phFail(this)">` : ''}<span class="plate" aria-hidden="true">${d.emoji}</span>${warm ? '<span class="steam" aria-hidden="true"><i></i><i></i><i></i></span>' : ''}${d.badge ? `<span class="dish-badge">${esc(d.badge)}</span>` : ''}${FavUI.btn(d.id, Extras.fav.has(d.id))}</div>
       <div class="dm-body">
         <div class="dm-top"><h2>${esc(d.name)}</h2><span class="dish-w">${esc(d.weight)}</span></div>
         <div class="dm-rate">${r.count ? `${stars(r.avg)}<b>${r.avg.toFixed(1)}</b><span>· ${r.count} ${plural(r.count, ['отзыв', 'отзыва', 'отзывов'])}</span>` : '<span class="muted">Пока без оценок</span>'}<span class="dm-cat">${(Catalog.cat(d.cat) || {}).emoji || ''} ${esc((Catalog.cat(d.cat) || {}).name || '')}</span></div>
@@ -3430,7 +3480,7 @@ const ReviewUI = {
     const row = i => {
       const d = Catalog.get(i.id), mine = Extras.reviews.mine(o.id, d.id), v = mine ? mine.rating : 0;
       return `<div class="rv-row" data-dish="${d.id}">
-        <div class="rv-dish"><div class="ci-ph" style="--h:${dishHue(d)}"><span>${d.emoji}</span></div><div><b>${esc(d.name)}</b><small>${i.qty} × · ${mine ? 'ваш отзыв можно изменить' : 'как вам блюдо?'}</small></div></div>
+        <div class="rv-dish"><div class="ci-ph" style="--h:${dishHue(d)}">${d.photo ? `<img src="${esc(d.photo)}" alt="" onerror="phFail(this)">` : ''}<span>${d.emoji}</span></div><div><b>${esc(d.name)}</b><small>${i.qty} × · ${mine ? 'ваш отзыв можно изменить' : 'как вам блюдо?'}</small></div></div>
         <div class="star-input" role="radiogroup" aria-label="Оценка блюда ${esc(d.name)}">${[5, 4, 3, 2, 1].map(n => `<input type="radio" name="r_${d.id}" id="r_${d.id}_${n}" value="${n}" ${v === n ? 'checked' : ''}><label for="r_${d.id}_${n}" title="${['', 'Плохо', 'Так себе', 'Нормально', 'Хорошо', 'Отлично'][n]}"><span class="sr">${n}</span>★</label>`).join('')}</div>
         <textarea name="t_${d.id}" rows="2" maxlength="300" placeholder="Расскажите о блюде (необязательно)">${esc(mine ? mine.text : '')}</textarea>
         <div class="field-error rv-err" role="alert"></div></div>`;
